@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 user-container">
+        <h2 style="margin: auto"> Get Users </h2>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="usercount">Enter Count (between 0 - 20) to fetch users:</label>
+                <input type="number" class="form-control" formControlName="usercount" id="usercount" autocomplete="off">
+                <div class="error"
+                    *ngIf="userForm.controls['usercount'].hasError('required') && userForm.controls['usercount'].touched">
+                    Please Enter User Count</div>
+                <div class="error"
+                    *ngIf="userForm.controls['usercount'].hasError('min') && userForm.controls['usercount'].touched || userForm.controls['usercount'].hasError('max') && userForm.controls['usercount'].touched">
+                    Please Enter User Count between 0 to 20</div>
+            </div>
+            <button class="submitBtn btn btn-success" [disabled]="userForm.invalid">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div *ngIf="users.length>0" class="col-md-6 userDetails-container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div id="mdb-lightbox-ui"></div>
+
+                <div class="mdb-lightbox">
+
+                    <figure class="col-md-4 figure" *ngFor="let user of users" data-toggle="modal"
+                        data-target="#myModal" (click)="viewUser(user)">
+                        <a class="user-img" href="javascript:void(0)" data-size="1600x1067">
+                            <img alt="picture" src={{user.picture.large}} class="img-fluid">
+                        </a>
+                        <label class="user-name">{{user.name.first}}</label>
+                    </figure>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">User Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12"><img src={{viewUSer?.picture?.medium}} alt="Avatar" class="avatar"></div>
+                    <div class="col-md-12 info-container">
+                        <div class="col-md-12 main-info"><label for="usercount">Name : <span>{{viewUSer?.name?.title}}
+                                    {{viewUSer?.name?.first}} {{viewUSer?.name?.first}}</span></label></div>
+                        <div class="col-md-6">
+                            <label for="usercount">First Name : <span>{{viewUSer?.name?.first}}</span></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="usercount">Last Name : <span>{{viewUSer?.name?.last}}</span></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="usercount">Gender : <span>{{viewUSer?.gender}}</span></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="usercount">D.O.B. : <span>{{viewUSer?.dob?.date | date}}</span></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="usercount">Phone : <span>{{viewUSer?.phone}}</span></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="usercount">Email : <span>{{viewUSer?.email}}</span></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="usercount">Address : <span>{{viewUSer?.location?.city}}
+                                    {{viewUSer?.location?.state}} {{viewUSer?.location?.country}}
+                                    {{viewUSer?.location?.postcode}}</span></label>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="usercount">Registered :
+                                <span>{{viewUSer?.registered?.date | date}}</span></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
